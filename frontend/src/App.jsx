@@ -12,10 +12,13 @@ import Orders from './pages/Orders';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import Add from './admin/pages/Add';
+import List from './admin/pages/List';
+import ProductOrders from './admin/pages/ProductOrders';
+import AdminLogin from './admin/pages/AdminLogin';
 
 const App = () => {
   return (
-    <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+    <div>
       <Routes>
         {/* Public routes */}
         <Route element={<MainLayout />}>
@@ -30,9 +33,13 @@ const App = () => {
           <Route path='/orders' element={<Orders />} />
         </Route>
 
+
         {/* Admin routes */}
         <Route path='/admin' element={<AdminLayout />}>
           <Route index element={<Add />} />
+          <Route path='add' element={<Add />} />
+          <Route path='list' element={<List />} />
+          <Route path='product-orders' element={<ProductOrders />} />
         </Route>
       </Routes>
     </div>

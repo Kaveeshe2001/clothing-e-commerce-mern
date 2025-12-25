@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { NavLink } from "react-router-dom";
 
 const Login = () => {
   const [currentState, setCurrentState] = useState('Sign Up');
@@ -26,7 +27,14 @@ const Login = () => {
           : <p onClick={() => setCurrentState('Login')} className="cursor-pointer">Login Here</p>
         }
       </div>
+      
       <button className="bg-black text-white font-light px-8 py-2 mt-4 cursor-pointer">{currentState === 'Login' ? 'Sign In' : 'Sign Up'}</button>
+
+      { currentState === 'Login' ? <div className="w-full border border-gray-300" /> : ''}
+      <NavLink to='/admin'>
+        { currentState === 'Login' ? <p className="cursor-pointer">Admin</p> : ''}
+      </NavLink>
+      
     </form>
   )
 }

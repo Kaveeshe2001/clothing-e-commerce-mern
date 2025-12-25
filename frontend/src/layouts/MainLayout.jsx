@@ -6,12 +6,12 @@ import { ToastContainer } from "react-toastify";
 
 export default function MainLayout() {
     return (
-        <>
+        <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
             <ToastContainer />
             <Navbar />
             <SearchBar />
             <Outlet />
             <Footer />
-        </>
+        </div>
     );
 }
