@@ -2,6 +2,7 @@ import axios from "axios";
 import { backendUrl } from "../../layouts/AdminLayout";
 import { toast } from "react-toastify";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const AdminLogin = ({setToken}) => {
   const [email, setEmail] = useState('');
@@ -35,6 +36,11 @@ const AdminLogin = ({setToken}) => {
         <input onChange={(e) => setPassword(e.target.value)} value={password} type="password" className="w-full px-3 py-2 border border-gray-800" placeholder="Password" required/>
 
         <button className="bg-black text-white font-light px-8 py-2 mt-4 cursor-pointer">Login</button>
+
+        <div className="w-full border border-gray-300" />
+        <NavLink to='/login'>
+          <p className="cursor-pointer">User Login</p>
+        </NavLink>
       </form>
 
     </div>
