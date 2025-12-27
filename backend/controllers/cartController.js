@@ -1,4 +1,4 @@
-import userModel from '../models/userModel'
+import userModel from '../models/userModel.js'
 
 // add products to user cart
 const addToCart = async (req, res) => {
@@ -6,7 +6,7 @@ const addToCart = async (req, res) => {
         const { userId, itemId, size } = req.body
 
         const userData = await userModel.findById(userId);
-        let cartData = await userData.cartData;
+        let cartData = userData.cartData;
 
         if (cartData[itemId]) {
             if (cartData[itemId][size]) {
