@@ -5,6 +5,8 @@ import connectDB from './config/mongodb.js'
 import connectCloudinary from './config/cloudinary.js'
 import userRouter from './routes/userRoute.js'
 import productRouter from './routes/productRoute.js'
+import { v2 as cloudinary } from "cloudinary";
+import cartRouter from './routes/cartRoute.js'
 
 // App Config
 const app = express()
@@ -19,9 +21,19 @@ app.use(cors())
 //api endpoints
 app.use('/api/user', userRouter)
 app.use('/api/product', productRouter)
+app.use('/api/cart', cartRouter)
 
 app.get('/', (req, res) => {
     res.send("API Working")
 })
+
+app.get("/cloudinary-test", async (req, res) => {
+  try {
+    const result = await cloudinary.api.ping();
+    res.json(result);
+  } catch (error) {
+    res.json({ error: error.message });
+  }
+});
 
 app.listen(port, () => console.log('Server started on PORT : '+ port))
