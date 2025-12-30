@@ -20,7 +20,7 @@ const placeOrder = async (req, res) => {
         const newOrder = new orderModel(orderData);
         await newOrder.save();
 
-        await userModel.findByIdAndUpdate(userId, {cartData: {}});
+        await userModel.findByIdAndUpdate(req.userId, {cartData: {}});
 
         res.json({ success: true, message: "Order Placed" }); 
 
@@ -47,9 +47,7 @@ const allOrders = async (req, res) => {
 // User Orders data for Frontend
 const userOrders = async (req, res) => {
     try {
-        const { userId } = req.body
-
-        const orders = await orderModel.find({ userId });
+        const orders = await orderModel.find({ userId: req.userId });
         res.json({ success: true, orders });
 
     } catch (error) {
@@ -59,6 +57,25 @@ const userOrders = async (req, res) => {
 }
 
 // Update Order Status from Admin Panel
-const UpdateStatus = async (req, res) => {}
+const UpdateStatus = async (req, res) => {
+    try {
+        const { orderId, status } = req.body
+
+        console.log("ORDER ID:", orderId);
+        console.log("NEW STATUS:", status);
+
+        const updateOrder = await orderModel.findByIdAndUpdate(orderId, {status}, {new:true});
+
+        if (!updateOrder) {
+            return res.json({ success: false, message: "Order not found" });
+        }
+
+        res.json({success: true, message: 'Status Updated', order: updateOrder});
+
+    } catch (error) {
+        console.log(error);
+        res.json({ success: false, message: error.message });
+    }
+}
 
 export {placeOrder, placeOrderStripe, allOrders, userOrders, UpdateStatus}
