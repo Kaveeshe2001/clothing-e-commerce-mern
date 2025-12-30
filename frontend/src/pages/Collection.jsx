@@ -10,6 +10,8 @@ const Collection = () => {
   const [filterProducts, setFilterProducts] = useState([]);
   const [category, setCategory] = useState([]);
   const [subCategory, setSubCategory] = useState([]);
+  const [maxPrice, setMaxPrice] = useState(10000);
+  const [selectedSizes, setSelectedSizes] = useState([]);
   const [sortType, setSortType] = useState('relavent');
 
   const toggleCategory = (e) => {
@@ -28,6 +30,14 @@ const Collection = () => {
     }
   }
 
+  const toggleSize = (size) => {
+    if (selectedSizes.includes(size)) {
+      setSelectedSizes(prev => prev.filter(item => item !== size));
+    } else {
+      setSelectedSizes(prev => [...prev, size]);
+    }
+  };
+
   const applyFilter = () => {
     let productsCopy = products.slice();
 
@@ -41,6 +51,12 @@ const Collection = () => {
 
     if (subCategory.length > 0) {
       productsCopy = productsCopy.filter(item => subCategory.includes(item.subCategory));
+    }
+
+    productsCopy = productsCopy.filter(item => item.price <= maxPrice);
+
+    if (selectedSizes.length > 0) {
+      productsCopy = productsCopy.filter(item => item.sizes.some(size => selectedSizes.includes(size)));
     }
 
     setFilterProducts(productsCopy);
@@ -64,7 +80,7 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, subCategory, search, showSearch, products]);
+  }, [category, subCategory, maxPrice, selectedSizes, search, showSearch, products]);
 
   useEffect(() => {
     sortProduct();
@@ -108,6 +124,45 @@ const Collection = () => {
             <p className="flex gap-2">
               <input className="w-3" type="checkbox" value={'Winterwear'} onChange={toggleSubCategory}/> Winterwear
             </p>
+          </div>
+        </div>
+
+        {/* Price Filter */}
+        <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
+          <p className="mb-3 text-sm font-medium">PRICE</p>
+
+          <div className="flex flex-col gap-2 text-sm font-light text-gray-700 pr-5">
+            {/* Range Slider */}
+            <input
+              type="range"
+              min="0"
+              max="10000"
+              value={maxPrice} 
+              onChange={(e) => setMaxPrice(Number(e.target.value))}
+              className="w-full h-1 bg-gray-300 rounded-lg appearance-none cursor-pointer accent-black"
+            />
+            <div className="flex justify-between mt-2">
+              <span>LKR 0</span>
+              <span className="font-bold">LKR {maxPrice}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* SIze Filter */}
+        <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
+          <p className="mb-3 text-sm font-medium">SIZE</p>
+
+          <div className="flex flex-wrap gap-2 pr-5">
+            {['S', 'M', 'L', 'XL', 'XXL'].map((size) => (
+              <p
+                key={size}
+                onClick={() => toggleSize(size)}
+                className={`cursor-pointer w-10 h-10 flex items-center justify-center border border-gray-300 transition-colors
+                  ${selectedSizes.includes(size) ? 'bg-black text-white' : 'bg-white text-gray-700 hover:bg-gray-100'}`}
+                >
+                  {size}
+                </p>
+            ))}
           </div>
         </div>
 
