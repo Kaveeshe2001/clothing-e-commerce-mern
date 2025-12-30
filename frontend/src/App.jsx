@@ -16,6 +16,10 @@ import List from './admin/pages/List';
 import ProductOrders from './admin/pages/ProductOrders';
 import AdminLogin from './admin/pages/AdminLogin';
 import Verify from './pages/Verify';
+import ProfileLayout from './layouts/ProfileLayout';
+import ProfileDetails from './MyAccount/pages/ProfileDetails';
+import Addresses from './MyAccount/pages/Addresses';
+import ChangePassword from './MyAccount/pages/ChangePassword';
 
 const App = () => {
   return (
@@ -43,6 +47,15 @@ const App = () => {
           <Route path='list' element={<List />} />
           <Route path='product-orders' element={<ProductOrders />} />
         </Route>
+
+        {/* My Profile routes */}
+        <Route path='/profile' element={<ProfileLayout />}>
+          <Route index element={<ProfileDetails />} />
+          <Route path='profile-details' element={<ProfileDetails />} />
+          <Route path='address' element={<Addresses />} />
+          <Route path='cpassword' element={<ChangePassword />} />
+        </Route>
+
       </Routes>
     </div>
   );
