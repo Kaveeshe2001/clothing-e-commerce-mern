@@ -1,4 +1,5 @@
 import { assets } from "../assets/assets"
+import NewsLetter from "../components/NewsLetter"
 import Title from "../components/Title"
 
 const About = () => {
@@ -36,6 +37,8 @@ const About = () => {
           <p className="text-gray-600">At Velvot Vogue, our customers come first. Our dedicated support team is always ready to assist you with quick responses, clear communication, and reliable solutions to ensure a seamless shopping experience.</p>
         </div>
       </div>
+
+      <NewsLetter />
     </div>
   )
 }
