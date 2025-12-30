@@ -6,21 +6,19 @@ import Title from "../../components/Title";
 import { assets } from "../assets/assets";
 import { ShopContext } from "../../context/ShopContext";
 
-const ProductOrders = ({ token }) => {
+const ProductOrders = () => {
   const [orders, setOrders] = useState([]);
   const {currency} = useContext(ShopContext);
+  const token = localStorage.getItem('token');
 
   const fetchAllOrders = async () => {
     if (!token) {
+      console.log("No token found in storage.");
       return null;
     }
 
     try {
-      const response = await axios.get(backendUrl + '/api/order/list-order', {}, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const response = await axios.post(backendUrl + '/api/order/list-order',{}, {headers: {token}});
       console.log(response.data);
 
       if (response.data.success) {
@@ -29,6 +27,22 @@ const ProductOrders = ({ token }) => {
         toast.error(response.data.message);
       }
 
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }
+
+  const statusHandler = async ( event, orderId) => {
+    try {
+      const response = await axios.post(backendUrl + '/api/order/status', {orderId, status: event.target.value}, {headers: {token}});
+
+      if (response.data.success) {
+        toast.success("Status updated");
+        fetchAllOrders();
+      } else {
+        toast.error(response.data.message);
+      }
     } catch (error) {
       console.log(error);
       toast.error(error.message);
@@ -79,7 +93,7 @@ const ProductOrders = ({ token }) => {
               </div>
 
               <p className="text-sm sm:text-[15px]">{currency}{order.amount}</p>
-              <select value={order.status} className="p-2 font-semibold">
+              <select onChange={(e) => statusHandler(e, order._id)} value={order.status} className="p-2 font-semibold">
                 <option value="Order Placed">Order Placed</option>
                 <option value="Packing">Packing</option>
                 <option value="Shipped">Shipped</option>

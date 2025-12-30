@@ -4,10 +4,10 @@ import userModel from "../models/userModel.js";
 // Placing orders using COD method
 const placeOrder = async (req, res) => {
     try {
-        const { userId, items, amount, address } = req.body
+        const { items, amount, address } = req.body
 
         const orderData = {
-            userId,
+            userId: req.userId,
             items,
             address,
             amount,
@@ -15,6 +15,7 @@ const placeOrder = async (req, res) => {
             payment: false,
             date: Date.now()
         }
+        console.log("USER ID:", req.userId);
 
         const newOrder = new orderModel(orderData);
         await newOrder.save();

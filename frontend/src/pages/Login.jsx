@@ -48,6 +48,7 @@ const Login = () => {
     if (token) {
       navigate('/');
     }
+    console.log(token)
   }, [token]);
 
   return (
