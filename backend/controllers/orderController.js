@@ -53,6 +53,11 @@ const placeOrderStripe = async (req, res) => {
             date: Date.now()
         }
 
+        // Save address to user profile
+        await userModel.findByIdAndUpdate(req.userId, {
+            $push: { addresses: address }
+        });
+
         const newOrder = new orderModel(orderData);
         await newOrder.save();
 
