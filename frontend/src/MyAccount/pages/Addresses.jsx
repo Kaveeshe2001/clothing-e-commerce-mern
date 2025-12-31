@@ -18,7 +18,7 @@ const Addresses = () => {
       console.log(response.data);
 
       if (response.data.success) {
-        setAddresses(response.data.addresses || []);
+        setAddresses(response.data.user.addresses.reverse());
       } else {
         toast.error(response.data.message);
       }
@@ -43,8 +43,11 @@ const Addresses = () => {
         {addresses && addresses.length > 0 ? (
             addresses.map((address, index) => (
             <div key={index} className="mb-4 border-b pb-2 last:border-b-0">
-                <p className="font-medium">{address.firstName || address.fullName}</p>
-                <p>{address.street}, {address.city}</p>
+                <p className="font-medium">{address.firstName || address.fullName},</p>
+                <p>{address.street}, {address.city},</p>
+                <p>{address.state},</p>
+                <p>{address.zipcode},</p>
+                <p>{address.country}.</p>
                 <p>{address.phone}</p>
             </div>
             ))
