@@ -14,7 +14,7 @@ const Addresses = () => {
         return;
       }
 
-      const response = await axios.get(backendUrl + '/api/profile/update', {headers: {token}});
+      const response = await axios.get(backendUrl + '/api/profile/list', {headers: {token}});
       console.log(response.data);
 
       if (response.data.success) {
