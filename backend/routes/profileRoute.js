@@ -4,7 +4,7 @@ import { changePassword, getProfile, updateProfile } from '../controllers/profil
 
 const profileRouter = express.Router();
 
-profileRouter.get("/update", authUser, getProfile);
+profileRouter.get("/list", authUser, getProfile);
 profileRouter.put("/update", authUser, updateProfile);
 profileRouter.post('/change-password', authUser, changePassword)
 
