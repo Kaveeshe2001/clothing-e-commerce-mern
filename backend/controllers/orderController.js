@@ -27,6 +27,11 @@ const placeOrder = async (req, res) => {
         const newOrder = new orderModel(orderData);
         await newOrder.save();
 
+        // Save address to user profile
+        await userModel.findByIdAndUpdate(req.userId, {
+            $push: { addresses: address }
+        });
+
         await userModel.findByIdAndUpdate(req.userId, {cartData: {}});
 
         res.json({ success: true, message: "Order Placed" }); 
@@ -52,11 +57,6 @@ const placeOrderStripe = async (req, res) => {
             payment: false,
             date: Date.now()
         }
-
-        // Save address to user profile
-        await userModel.findByIdAndUpdate(req.userId, {
-            $push: { addresses: address }
-        });
 
         const newOrder = new orderModel(orderData);
         await newOrder.save();
